@@ -6,6 +6,8 @@ interface Skill {
   level: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
   inDemand: boolean;
   projects: string[];
+  concepts: string[];
+  interviewTopics: string[];
 }
 
 interface SkillsMappingProps {
@@ -43,21 +45,47 @@ const SkillsMapping: React.FC<SkillsMappingProps> = ({ detectedSkills, targetRol
       {/* Detected Skills */}
       <div className="mb-6">
         <h4 className="text-lg font-medium text-purple-200 mb-4">Your Skills</h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="space-y-4">
           {detectedSkills.map((skill, index) => (
-            <div key={index} className="flex items-center justify-between p-3 bg-black/20 rounded-lg">
-              <div className="flex items-center space-x-3">
-                <CheckCircleIcon className="w-5 h-5 text-green-400" />
-                <div>
-                  <span className="text-white font-medium">{skill.name}</span>
-                  {skill.inDemand && (
-                    <span className="ml-2 px-2 py-1 bg-purple-600 text-xs rounded-full">High Demand</span>
-                  )}
+            <div key={index} className="bg-black/20 rounded-lg p-4 border border-purple-500/20">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center space-x-3">
+                  <CheckCircleIcon className="w-5 h-5 text-green-400" />
+                  <div>
+                    <span className="text-white font-medium text-lg">{skill.name}</span>
+                    {skill.inDemand && (
+                      <span className="ml-2 px-2 py-1 bg-purple-600 text-xs rounded-full">High Demand</span>
+                    )}
+                  </div>
+                </div>
+                <span className={`px-3 py-1 rounded-full text-sm text-white ${getLevelColor(skill.level)}`}>
+                  {skill.level}
+                </span>
+              </div>
+              
+              {/* Concepts */}
+              <div className="mb-3">
+                <p className="text-sm text-gray-300 mb-2">Key Concepts:</p>
+                <div className="flex flex-wrap gap-2">
+                  {skill.concepts.map((concept, i) => (
+                    <span key={i} className="px-2 py-1 bg-blue-600/30 text-blue-200 text-xs rounded-md">
+                      {concept}
+                    </span>
+                  ))}
                 </div>
               </div>
-              <span className={`px-2 py-1 rounded-full text-xs text-white ${getLevelColor(skill.level)}`}>
-                {skill.level}
-              </span>
+              
+              {/* Interview Topics */}
+              <div>
+                <p className="text-sm text-gray-300 mb-2">Interview Topics:</p>
+                <div className="flex flex-wrap gap-2">
+                  {skill.interviewTopics.map((topic, i) => (
+                    <span key={i} className="px-2 py-1 bg-orange-600/30 text-orange-200 text-xs rounded-md">
+                      {topic}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           ))}
         </div>

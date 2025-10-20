@@ -38,6 +38,22 @@ const ProjectSuggestions: React.FC<ProjectSuggestionsProps> = ({
         difficulty: 'Advanced',
         estimatedTime: '4-6 weeks',
         impact: 'High'
+      },
+      {
+        title: 'Weather App with Maps',
+        description: 'Weather forecast app with interactive maps and location-based alerts',
+        skills: ['React', 'APIs', 'Geolocation', 'PWA'],
+        difficulty: 'Beginner',
+        estimatedTime: '1-2 weeks',
+        impact: 'Medium'
+      },
+      {
+        title: 'Portfolio Website',
+        description: 'Personal portfolio with animations, dark mode, and contact form',
+        skills: ['React', 'Framer Motion', 'CSS Animations', 'EmailJS'],
+        difficulty: 'Intermediate',
+        estimatedTime: '2-3 weeks',
+        impact: 'High'
       }
     ],
     'Full-Stack Developer': [
@@ -56,6 +72,38 @@ const ProjectSuggestions: React.FC<ProjectSuggestionsProps> = ({
         difficulty: 'Intermediate',
         estimatedTime: '3-4 weeks',
         impact: 'High'
+      },
+      {
+        title: 'Chat Application',
+        description: 'Real-time messaging app with rooms, file sharing, and user authentication',
+        skills: ['React', 'Socket.io', 'Node.js', 'MongoDB', 'Cloudinary'],
+        difficulty: 'Intermediate',
+        estimatedTime: '3-4 weeks',
+        impact: 'High'
+      },
+      {
+        title: 'Blog Platform',
+        description: 'Medium-like blogging platform with rich text editor and user profiles',
+        skills: ['React', 'Node.js', 'MongoDB', 'Rich Text Editor', 'Image Upload'],
+        difficulty: 'Intermediate',
+        estimatedTime: '4-5 weeks',
+        impact: 'High'
+      },
+      {
+        title: 'Video Streaming App',
+        description: 'Netflix-like platform with video upload, streaming, and user subscriptions',
+        skills: ['React', 'Node.js', 'AWS S3', 'Video Processing', 'Payment Integration'],
+        difficulty: 'Advanced',
+        estimatedTime: '8-10 weeks',
+        impact: 'High'
+      },
+      {
+        title: 'Food Delivery App',
+        description: 'Complete food ordering system with restaurant management and delivery tracking',
+        skills: ['React', 'Node.js', 'MongoDB', 'Maps API', 'Payment Gateway'],
+        difficulty: 'Advanced',
+        estimatedTime: '6-8 weeks',
+        impact: 'High'
       }
     ],
     'Backend Developer': [
@@ -65,6 +113,48 @@ const ProjectSuggestions: React.FC<ProjectSuggestionsProps> = ({
         skills: ['Node.js', 'Docker', 'MongoDB', 'Redis', 'Swagger'],
         difficulty: 'Advanced',
         estimatedTime: '4-5 weeks',
+        impact: 'High'
+      },
+      {
+        title: 'Authentication Service',
+        description: 'OAuth2 authentication service with JWT, refresh tokens, and role-based access',
+        skills: ['Node.js', 'JWT', 'OAuth2', 'Redis', 'Rate Limiting'],
+        difficulty: 'Intermediate',
+        estimatedTime: '2-3 weeks',
+        impact: 'High'
+      },
+      {
+        title: 'File Storage API',
+        description: 'Cloud storage service with file upload, compression, and CDN integration',
+        skills: ['Node.js', 'AWS S3', 'Image Processing', 'CDN', 'Caching'],
+        difficulty: 'Intermediate',
+        estimatedTime: '3-4 weeks',
+        impact: 'Medium'
+      },
+      {
+        title: 'Payment Processing System',
+        description: 'Secure payment gateway with webhook handling and transaction management',
+        skills: ['Node.js', 'Stripe API', 'Webhooks', 'Database Transactions', 'Security'],
+        difficulty: 'Advanced',
+        estimatedTime: '4-5 weeks',
+        impact: 'High'
+      }
+    ],
+    'Data Scientist': [
+      {
+        title: 'Stock Price Predictor',
+        description: 'ML model to predict stock prices with data visualization dashboard',
+        skills: ['Python', 'Pandas', 'Scikit-learn', 'Matplotlib', 'APIs'],
+        difficulty: 'Intermediate',
+        estimatedTime: '3-4 weeks',
+        impact: 'High'
+      },
+      {
+        title: 'Customer Churn Analysis',
+        description: 'Analyze customer behavior and predict churn using machine learning',
+        skills: ['Python', 'Pandas', 'Scikit-learn', 'Seaborn', 'Feature Engineering'],
+        difficulty: 'Intermediate',
+        estimatedTime: '2-3 weeks',
         impact: 'High'
       }
     ]

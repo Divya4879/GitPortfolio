@@ -239,17 +239,17 @@ const ResultsDashboard: React.FC<ResultsDashboardProps> = ({ analysis, userInput
                             benchmark={75}
                         />
                         <ProgressBar 
-                            score={analysis.codeQualityScore} 
+                            score={analysis.scoreBreakdown.codeQuality} 
                             label="Code Quality" 
                             benchmark={80}
                         />
                         <ProgressBar 
-                            score={analysis.documentationScore} 
+                            score={analysis.scoreBreakdown.documentation} 
                             label="Documentation Quality" 
                             benchmark={70}
                         />
                         <ProgressBar 
-                            score={analysis.projectDiversityScore} 
+                            score={analysis.scoreBreakdown.projectDiversity} 
                             label="Project Diversity" 
                             benchmark={65}
                         />
@@ -259,10 +259,38 @@ const ResultsDashboard: React.FC<ResultsDashboardProps> = ({ analysis, userInput
                 {/* Skills Analysis */}
                 <SkillsMapping 
                     detectedSkills={[
-                        { name: 'React', level: 'Advanced', inDemand: true, projects: ['Portfolio', 'Dashboard'] },
-                        { name: 'TypeScript', level: 'Intermediate', inDemand: true, projects: ['API Client'] },
-                        { name: 'Node.js', level: 'Intermediate', inDemand: true, projects: ['Backend API'] },
-                        { name: 'Python', level: 'Beginner', inDemand: true, projects: ['Data Analysis'] }
+                        { 
+                            name: 'React', 
+                            level: 'Advanced', 
+                            inDemand: true, 
+                            projects: ['Portfolio', 'Dashboard'],
+                            concepts: ['Hooks', 'Context API', 'Redux', 'JSX', 'Virtual DOM', 'Component Lifecycle'],
+                            interviewTopics: ['State Management', 'Performance Optimization', 'Testing with Jest', 'Custom Hooks']
+                        },
+                        { 
+                            name: 'TypeScript', 
+                            level: 'Intermediate', 
+                            inDemand: true, 
+                            projects: ['API Client'],
+                            concepts: ['Interfaces', 'Generics', 'Union Types', 'Type Guards', 'Decorators'],
+                            interviewTopics: ['Type Safety', 'Generic Constraints', 'Utility Types', 'Module Systems']
+                        },
+                        { 
+                            name: 'Node.js', 
+                            level: 'Intermediate', 
+                            inDemand: true, 
+                            projects: ['Backend API'],
+                            concepts: ['Express.js', 'Middleware', 'Event Loop', 'Streams', 'Buffer', 'File System'],
+                            interviewTopics: ['Async/Await vs Promises', 'Error Handling', 'Security Best Practices', 'Performance Tuning']
+                        },
+                        { 
+                            name: 'Python', 
+                            level: 'Beginner', 
+                            inDemand: true, 
+                            projects: ['Data Analysis'],
+                            concepts: ['Django', 'Flask', 'Pandas', 'NumPy', 'List Comprehensions', 'Decorators'],
+                            interviewTopics: ['OOP Concepts', 'Data Structures', 'Algorithm Complexity', 'Web Frameworks']
+                        }
                     ]}
                     targetRole={userInput.targetRole}
                 />
