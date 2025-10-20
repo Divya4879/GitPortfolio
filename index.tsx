@@ -1,7 +1,6 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Auth0ProviderWrapper from './components/Auth0Provider';
 import App from './App';
 
 const rootElement = document.getElementById('root');
@@ -12,8 +11,6 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <Auth0ProviderWrapper>
-      <App />
-    </Auth0ProviderWrapper>
+    <App />
   </React.StrictMode>
 );
