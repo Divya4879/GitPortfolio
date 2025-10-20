@@ -6,6 +6,7 @@ import RecommendationItem from './RecommendationItem';
 import ProgressBar from './ProgressBar';
 import SkillsMapping from './SkillsMapping';
 import ProjectSuggestions from './ProjectSuggestions';
+import { analysisStorage } from '../services/analysisStorage';
 import { CodeBracketIcon, DocumentTextIcon, ChartBarIcon, LightBulbIcon, DownloadIcon, BookOpenIcon, BeakerIcon } from './icons';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -180,7 +181,14 @@ const ResultsDashboard: React.FC<ResultsDashboardProps> = ({ analysis, userInput
             <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                 <div>
                     <h2 className="text-3xl font-bold">Analysis for <span className="text-purple-400">{userInput.username}</span></h2>
-                    <p className="text-gray-400">Targeting a <span className="font-semibold">{userInput.targetRole}</span> role.</p>
+                    <div className="flex items-center gap-4 text-sm">
+                        <p className="text-gray-400">Targeting a <span className="font-semibold">{userInput.targetRole}</span> role.</p>
+                        {analysisStorage.hasStoredAnalysis() && (
+                            <span className="text-green-400 flex items-center gap-1">
+                                💾 Saved {analysisStorage.getAnalysisAge()}
+                            </span>
+                        )}
+                    </div>
                 </div>
                 <div className="flex gap-2 flex-shrink-0">
                     <button 

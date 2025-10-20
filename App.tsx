@@ -7,6 +7,7 @@ import ResultsDashboard from './components/ResultsDashboard';
 import SingleRepoAnalysisView from './components/SingleRepoAnalysisView';
 import { analyzePortfolio, analyzeSingleRepo } from './services/geminiService';
 import { getUserPublicRepos, getRepoReadmeContent, getRepoFileTree } from './services/githubService';
+import { analysisStorage } from './services/analysisStorage';
 import type { PortfolioAnalysis, UserInput, GithubRepo, SingleRepoAnalysis } from './types';
 
 type View = 'landing' | 'form' | 'loading' | 'results';
@@ -23,8 +24,31 @@ const AppContent: React.FC = () => {
   const [isDeepDiveLoading, setIsDeepDiveLoading] = useState<boolean>(false);
   const [singleRepoResult, setSingleRepoResult] = useState<SingleRepoAnalysis | null>(null);
 
+  // Load saved analysis on app start
+  useEffect(() => {
+    if (isAuthenticated && !analysisResult) {
+      const savedAnalysis = analysisStorage.getLatestAnalysis();
+      if (savedAnalysis) {
+        setAnalysisResult(savedAnalysis.analysis);
+        setCurrentUser(savedAnalysis.userInput);
+        setView('results');
+        console.log('Loaded saved analysis for:', savedAnalysis.username);
+      }
+    }
+  }, [isAuthenticated, analysisResult]);
+
   useEffect(() => {
     if (isAuthenticated && view === 'landing') {
+      // Check if we have saved analysis
+      if (analysisStorage.hasStoredAnalysis()) {
+        const savedAnalysis = analysisStorage.getLatestAnalysis();
+        if (savedAnalysis) {
+          setAnalysisResult(savedAnalysis.analysis);
+          setCurrentUser(savedAnalysis.userInput);
+          setView('results');
+          return;
+        }
+      }
       setView('form');
     }
   }, [isAuthenticated, view]);
@@ -45,6 +69,10 @@ const AppContent: React.FC = () => {
       
       const analysis = await analyzePortfolio(userInput, repos);
       setAnalysisResult(analysis);
+      
+      // Save analysis to localStorage
+      analysisStorage.saveAnalysis(analysis, userInput);
+      
       setView('results');
     } catch (err) {
       console.error("Analysis failed:", err);
@@ -83,11 +111,13 @@ const AppContent: React.FC = () => {
   };
   
   const handleReset = useCallback(() => {
-    setView('landing');
+    setView('form');
     setAnalysisResult(null);
     setError(null);
     setCurrentUser(null);
     setAllPublicRepos([]);
+    // Clear saved analysis
+    analysisStorage.clearAnalysis();
   }, []);
 
   const renderContent = () => {
