@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useAuth } from '../contexts/AuthContext';
 import { GitHubIcon, ArrowRightIcon, CheckCircleIcon } from './icons';
 
 interface LandingPageProps {
@@ -7,13 +7,13 @@ interface LandingPageProps {
 }
 
 const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const { isAuthenticated, login } = useAuth();
 
   const handleGetStarted = () => {
     if (isAuthenticated) {
       onGetStarted();
     } else {
-      loginWithRedirect();
+      login();
     }
   };
 

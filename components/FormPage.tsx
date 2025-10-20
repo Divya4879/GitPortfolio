@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useAuth } from '../contexts/AuthContext';
 import type { UserInput } from '../types';
 import { TARGET_ROLES, EXPERIENCE_LEVELS, FOCUS_AREAS } from '../constants';
 import { ArrowRightIcon } from './icons';
@@ -11,7 +11,7 @@ interface FormPageProps {
 }
 
 const FormPage: React.FC<FormPageProps> = ({ onAnalyze, isLoading, error }) => {
-  const { user } = useAuth0();
+  const { user } = useAuth();
   const [username, setUsername] = useState('');
   const [targetRole, setTargetRole] = useState(TARGET_ROLES[2]);
   const [experienceLevel, setExperienceLevel] = useState(EXPERIENCE_LEVELS[1]);
@@ -19,8 +19,7 @@ const FormPage: React.FC<FormPageProps> = ({ onAnalyze, isLoading, error }) => {
 
   useEffect(() => {
     if (user) {
-      const githubUsername = user.nickname || user.sub?.split('|')[1] || '';
-      setUsername(githubUsername);
+      setUsername(user.login || '');
     }
   }, [user]);
 
