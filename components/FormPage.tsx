@@ -50,10 +50,9 @@ const FormPage: React.FC<FormPageProps> = ({ onAnalyze, isLoading, error }) => {
             <input
               type="text"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-4 py-3 bg-purple-900/30 border border-purple-500/30 rounded-lg text-purple-100 placeholder-purple-400 focus:outline-none focus:border-purple-400"
-              placeholder="Enter your GitHub username"
-              required
+              readOnly
+              className="w-full px-4 py-3 bg-purple-900/50 border border-purple-500/30 rounded-lg text-purple-100 cursor-not-allowed opacity-75"
+              placeholder="GitHub username will be auto-filled"
             />
           </div>
 
@@ -94,7 +93,7 @@ const FormPage: React.FC<FormPageProps> = ({ onAnalyze, isLoading, error }) => {
                     onChange={() => handleFocusAreaChange(area.id)}
                     className="w-5 h-5 text-purple-500 bg-purple-900/30 border-purple-500/30 rounded focus:ring-purple-400"
                   />
-                  <span className="text-purple-200">{area.label}</span>
+                  <span className="text-purple-200">{area.name}</span>
                 </label>
               ))}
             </div>
