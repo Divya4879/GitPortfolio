@@ -7,7 +7,7 @@ interface LandingPageProps {
 }
 
 const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
-  const { isAuthenticated, login } = useAuth();
+  const { isAuthenticated, user, error, login, logout, clearError } = useAuth();
 
   const handleGetStarted = () => {
     if (isAuthenticated) {
@@ -25,11 +25,47 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
         style={{ backgroundImage: 'url(/header-image.png)' }}
       >
         <div className="absolute inset-0 bg-black/30"></div>
+        
+        {/* User Info & Logout */}
+        {isAuthenticated && user && (
+          <div className="absolute top-4 right-4 flex items-center space-x-4 bg-black/50 backdrop-blur-sm rounded-lg p-3">
+            <img 
+              src={user.avatar_url} 
+              alt={user.name} 
+              className="w-8 h-8 rounded-full"
+            />
+            <span className="text-white text-sm">{user.name || user.login}</span>
+            <button
+              onClick={logout}
+              className="text-gray-300 hover:text-white text-sm transition-colors"
+            >
+              Logout
+            </button>
+          </div>
+        )}
       </div>
       
       {/* Main Content */}
       <div className="relative -mt-20 z-10">
         <div className="max-w-5xl mx-auto px-6">
+          {/* Error Display */}
+          {error && (
+            <div className="mb-6 bg-red-900/50 border border-red-500/50 rounded-lg p-4 backdrop-blur-sm">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-red-200 font-medium">Authentication Error</h4>
+                  <p className="text-red-300 text-sm mt-1">{error.message}</p>
+                </div>
+                <button
+                  onClick={clearError}
+                  className="text-red-300 hover:text-red-100 text-sm"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Hero Section */}
           <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-12 mb-16 border border-white/10 shadow-2xl">
             <div className="text-center">
@@ -42,9 +78,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               </p>
               <button
                 onClick={handleGetStarted}
-                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-medium py-4 px-10 rounded-full text-lg transition-all duration-500 hover:shadow-lg hover:shadow-purple-500/25 transform hover:-translate-y-0.5"
+                disabled={!!error}
+                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-medium py-4 px-10 rounded-full text-lg transition-all duration-500 hover:shadow-lg hover:shadow-purple-500/25 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Get Started
+                {isAuthenticated ? 'Continue to Analysis' : 'Get Started with GitHub'}
               </button>
             </div>
           </div>
