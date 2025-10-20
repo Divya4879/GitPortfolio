@@ -180,12 +180,12 @@ const ResultsDashboard: React.FC<ResultsDashboardProps> = ({ analysis, userInput
                     <p className="text-gray-400">Targeting a <span className="font-semibold">{userInput.targetRole}</span> role.</p>
                 </div>
                 <div className="flex gap-2 flex-shrink-0">
-                    <button onClick={downloadPdfRoadmap} disabled={isDownloading} aria-label="Download improvement roadmap as PDF" className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm sm:text-base disabled:opacity-50 disabled:cursor-wait">
+                    <button 
+                        onClick={() => window.print()} 
+                        className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm sm:text-base"
+                    >
                         <DownloadIcon className="w-5 h-5" />
-                        {isDownloading ? 'Generating...' : 'Download PDF'}
-                    </button>
-                    <button onClick={onReset} aria-label="Analyze another portfolio" className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm sm:text-base">
-                        Analyze Another
+                        Save Analysis
                     </button>
                 </div>
             </header>

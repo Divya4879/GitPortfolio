@@ -39,6 +39,15 @@
         background-size: 400% 400%;
         animation: gradient-animation 15s ease infinite;
       }
+      @media print {
+        body { background: white !important; color: black !important; }
+        .bg-gradient-to-br, .bg-gradient-to-r, .animated-gradient { background: white !important; }
+        .text-purple-100, .text-purple-200, .text-purple-300 { color: black !important; }
+        .text-gray-300, .text-gray-400 { color: #666 !important; }
+        .bg-white\/5, .bg-black\/20 { background: #f5f5f5 !important; border: 1px solid #ddd !important; }
+        button { display: none !important; }
+        .border-purple-500\/20 { border-color: #ddd !important; }
+      }
     </style>
 <script type="importmap">
 {
