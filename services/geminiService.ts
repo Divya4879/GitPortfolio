@@ -78,9 +78,29 @@ const portfolioAnalysisSchema = {
                 recommendations: { type: Type.ARRAY, items: { type: Type.STRING } }
             },
             required: ['languages', 'frameworks', 'tools', 'summary', 'recommendations']
+        },
+        detectedSkills: {
+            type: Type.ARRAY,
+            description: "Skills actually found in the repositories with evidence",
+            items: {
+                type: Type.OBJECT,
+                properties: {
+                    name: { type: Type.STRING },
+                    level: { type: Type.STRING, enum: ['Beginner', 'Intermediate', 'Advanced', 'Expert'] },
+                    evidence: { type: Type.ARRAY, items: { type: Type.STRING } },
+                    concepts: { type: Type.ARRAY, items: { type: Type.STRING } },
+                    interviewTopics: { type: Type.ARRAY, items: { type: Type.STRING } }
+                },
+                required: ['name', 'level', 'evidence', 'concepts', 'interviewTopics']
+            }
+        },
+        missingSkills: {
+            type: Type.ARRAY,
+            description: "Skills needed for target role that aren't evident in repositories",
+            items: { type: Type.STRING }
         }
     },
-    required: ['overallScore', 'summary', 'scoreBreakdown', 'repositories', 'recommendations', 'commitAnalysis', 'techStackAnalysis']
+    required: ['overallScore', 'summary', 'scoreBreakdown', 'repositories', 'recommendations', 'commitAnalysis', 'techStackAnalysis', 'detectedSkills', 'missingSkills']
 };
 
 // Schema for the single repository deep-dive analysis

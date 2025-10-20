@@ -258,40 +258,14 @@ const ResultsDashboard: React.FC<ResultsDashboardProps> = ({ analysis, userInput
 
                 {/* Skills Analysis */}
                 <SkillsMapping 
-                    detectedSkills={[
-                        { 
-                            name: 'React', 
-                            level: 'Advanced', 
-                            inDemand: true, 
-                            projects: ['Portfolio', 'Dashboard'],
-                            concepts: ['Hooks', 'Context API', 'Redux', 'JSX', 'Virtual DOM', 'Component Lifecycle'],
-                            interviewTopics: ['State Management', 'Performance Optimization', 'Testing with Jest', 'Custom Hooks']
-                        },
-                        { 
-                            name: 'TypeScript', 
-                            level: 'Intermediate', 
-                            inDemand: true, 
-                            projects: ['API Client'],
-                            concepts: ['Interfaces', 'Generics', 'Union Types', 'Type Guards', 'Decorators'],
-                            interviewTopics: ['Type Safety', 'Generic Constraints', 'Utility Types', 'Module Systems']
-                        },
-                        { 
-                            name: 'Node.js', 
-                            level: 'Intermediate', 
-                            inDemand: true, 
-                            projects: ['Backend API'],
-                            concepts: ['Express.js', 'Middleware', 'Event Loop', 'Streams', 'Buffer', 'File System'],
-                            interviewTopics: ['Async/Await vs Promises', 'Error Handling', 'Security Best Practices', 'Performance Tuning']
-                        },
-                        { 
-                            name: 'Python', 
-                            level: 'Beginner', 
-                            inDemand: true, 
-                            projects: ['Data Analysis'],
-                            concepts: ['Django', 'Flask', 'Pandas', 'NumPy', 'List Comprehensions', 'Decorators'],
-                            interviewTopics: ['OOP Concepts', 'Data Structures', 'Algorithm Complexity', 'Web Frameworks']
-                        }
-                    ]}
+                    detectedSkills={analysis.detectedSkills.map(skill => ({
+                        name: skill.name,
+                        level: skill.level,
+                        inDemand: true, // Could be enhanced with real market data
+                        projects: skill.evidence,
+                        concepts: skill.concepts,
+                        interviewTopics: skill.interviewTopics
+                    }))}
                     targetRole={userInput.targetRole}
                 />
 
@@ -299,7 +273,7 @@ const ResultsDashboard: React.FC<ResultsDashboardProps> = ({ analysis, userInput
                 <ProjectSuggestions 
                     targetRole={userInput.targetRole}
                     experienceLevel={userInput.experienceLevel}
-                    missingSkills={['Docker', 'AWS', 'GraphQL']}
+                    missingSkills={analysis.missingSkills}
                 />
 
                 <AnalysisCard title="Explore Repositories" icon={<BookOpenIcon className="w-6 h-6 text-blue-400"/>}>

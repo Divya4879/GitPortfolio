@@ -45,14 +45,24 @@ export interface TechStackAnalysis {
   recommendations: string[];
 }
 
+export interface DetectedSkill {
+  name: string;
+  level: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
+  evidence: string[];
+  concepts: string[];
+  interviewTopics: string[];
+}
+
 export interface PortfolioAnalysis {
   overallScore: number;
   summary: string;
   scoreBreakdown: ScoreBreakdown;
-  repositories: RepoAnalysis[]; // This is now the AI's selection of top 3-5 repos
+  repositories: RepoAnalysis[];
   recommendations: Recommendation[];
   commitAnalysis: CommitAnalysis;
   techStackAnalysis: TechStackAnalysis;
+  detectedSkills: DetectedSkill[];
+  missingSkills: string[];
 }
 
 // Data structure from the GitHub API
