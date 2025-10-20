@@ -2,7 +2,11 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import type { PortfolioAnalysis, UserInput, GithubRepo, SingleRepoAnalysis } from '../types';
 
-const apiKey = "AIzaSyDVOHpq6WFn7YxQeyhFLjYwxLX14AO88-c";
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+
+if (!apiKey) {
+    throw new Error("GEMINI_API_KEY environment variable is not set");
+}
 
 const ai = new GoogleGenAI({ apiKey });
 

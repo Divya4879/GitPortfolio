@@ -1,6 +1,6 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/github-portfolio-analyzer', '--build-arg', 'GEMINI_API_KEY=AIzaSyDVOHpq6WFn7YxQeyhFLjYwxLX14AO88-c', '.']
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/github-portfolio-analyzer', '.']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/github-portfolio-analyzer']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
