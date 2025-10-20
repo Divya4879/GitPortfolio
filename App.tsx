@@ -5,6 +5,7 @@ import FormPage from './components/FormPage';
 import LoadingScreen from './components/LoadingScreen';
 import ResultsDashboard from './components/ResultsDashboard';
 import SingleRepoAnalysisView from './components/SingleRepoAnalysisView';
+import ErrorBoundary from './components/ErrorBoundary';
 import { analyzePortfolio, analyzeSingleRepo } from './services/geminiService';
 import { getUserPublicRepos, getRepoReadmeContent, getRepoFileTree } from './services/githubService';
 import { analysisStorage } from './services/analysisStorage';
@@ -20,6 +21,8 @@ const AppContent: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<UserInput | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [loadingProgress, setLoadingProgress] = useState<number>(0);
+  const [loadingStep, setLoadingStep] = useState<string>('');
   const [selectedRepo, setSelectedRepo] = useState<GithubRepo | null>(null);
   const [isDeepDiveLoading, setIsDeepDiveLoading] = useState<boolean>(false);
   const [singleRepoResult, setSingleRepoResult] = useState<SingleRepoAnalysis | null>(null);
@@ -62,24 +65,41 @@ const AppContent: React.FC = () => {
     setError(null);
     setView('loading');
     setCurrentUser(userInput);
+    setLoadingProgress(0);
 
     try {
+      setLoadingStep('Authenticating with GitHub...');
+      setLoadingProgress(10);
+      
+      setLoadingStep('Fetching your repositories...');
+      setLoadingProgress(25);
       const repos = await getUserPublicRepos(userInput.username);
       setAllPublicRepos(repos);
       
+      setLoadingStep('Analyzing code quality and extracting skills...');
+      setLoadingProgress(60);
       const analysis = await analyzePortfolio(userInput, repos);
-      setAnalysisResult(analysis);
+      
+      setLoadingStep('Generating recommendations...');
+      setLoadingProgress(85);
+      
+      setLoadingStep('Finalizing your report...');
+      setLoadingProgress(95);
       
       // Save analysis to localStorage
       analysisStorage.saveAnalysis(analysis, userInput);
+      setAnalysisResult(analysis);
       
-      setView('results');
+      setLoadingProgress(100);
+      setTimeout(() => setView('results'), 500); // Small delay to show 100%
     } catch (err) {
       console.error("Analysis failed:", err);
       setError(err instanceof Error ? err.message : "Analysis failed. Please try again.");
       setView('form');
     } finally {
       setIsLoading(false);
+      setLoadingProgress(0);
+      setLoadingStep('');
     }
   }, []);
 
@@ -129,7 +149,7 @@ const AppContent: React.FC = () => {
       case 'form':
         return <FormPage onAnalyze={handleAnalyze} isLoading={isLoading} error={error} />;
       case 'loading':
-        return <LoadingScreen />;
+        return <LoadingScreen currentStep={loadingStep} progress={loadingProgress} />;
       case 'results':
         return analysisResult && currentUser && (
             <ResultsDashboard 
@@ -164,9 +184,11 @@ const AppContent: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </ErrorBoundary>
   );
 };
 
