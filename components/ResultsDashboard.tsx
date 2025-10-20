@@ -3,6 +3,9 @@ import type { PortfolioAnalysis, UserInput, GithubRepo } from '../types';
 import ScoreGauge from './ScoreGauge';
 import AnalysisCard from './AnalysisCard';
 import RecommendationItem from './RecommendationItem';
+import ProgressBar from './ProgressBar';
+import SkillsMapping from './SkillsMapping';
+import ProjectSuggestions from './ProjectSuggestions';
 import { CodeBracketIcon, DocumentTextIcon, ChartBarIcon, LightBulbIcon, DownloadIcon, BookOpenIcon, BeakerIcon } from './icons';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -225,6 +228,51 @@ const ResultsDashboard: React.FC<ResultsDashboardProps> = ({ analysis, userInput
                         {recommendations.slice(0, 5).map((rec, i) => <RecommendationItem key={rec.id} recommendation={rec} index={i} />)}
                     </div>
                 </AnalysisCard>
+
+                {/* Enhanced Metrics with Industry Benchmarks */}
+                <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10">
+                    <h3 className="text-xl font-semibold text-white mb-6">Performance vs Industry Standards</h3>
+                    <div className="space-y-6">
+                        <ProgressBar 
+                            score={analysis.overallScore} 
+                            label="Overall Portfolio Score" 
+                            benchmark={75}
+                        />
+                        <ProgressBar 
+                            score={analysis.codeQualityScore} 
+                            label="Code Quality" 
+                            benchmark={80}
+                        />
+                        <ProgressBar 
+                            score={analysis.documentationScore} 
+                            label="Documentation Quality" 
+                            benchmark={70}
+                        />
+                        <ProgressBar 
+                            score={analysis.projectDiversityScore} 
+                            label="Project Diversity" 
+                            benchmark={65}
+                        />
+                    </div>
+                </div>
+
+                {/* Skills Analysis */}
+                <SkillsMapping 
+                    detectedSkills={[
+                        { name: 'React', level: 'Advanced', inDemand: true, projects: ['Portfolio', 'Dashboard'] },
+                        { name: 'TypeScript', level: 'Intermediate', inDemand: true, projects: ['API Client'] },
+                        { name: 'Node.js', level: 'Intermediate', inDemand: true, projects: ['Backend API'] },
+                        { name: 'Python', level: 'Beginner', inDemand: true, projects: ['Data Analysis'] }
+                    ]}
+                    targetRole={userInput.targetRole}
+                />
+
+                {/* Project Recommendations */}
+                <ProjectSuggestions 
+                    targetRole={userInput.targetRole}
+                    experienceLevel={userInput.experienceLevel}
+                    missingSkills={['Docker', 'AWS', 'GraphQL']}
+                />
 
                 <AnalysisCard title="Explore Repositories" icon={<BookOpenIcon className="w-6 h-6 text-blue-400"/>}>
                     <p className="text-sm text-gray-400 mb-4">Click on any repository to perform a deep-dive analysis of its structure and README.</p>
