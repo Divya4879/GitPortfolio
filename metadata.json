@@ -1,0 +1,5 @@
+{
+  "name": "GitHub Portfolio Analyzer & Optimizer",
+  "description": "An AI-powered tool that analyzes your GitHub portfolio, provides a detailed quality score, and generates actionable recommendations to help you stand out to recruiters and hiring managers.",
+  "requestFramePermissions": []
+}
