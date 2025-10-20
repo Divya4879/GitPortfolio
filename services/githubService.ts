@@ -16,21 +16,29 @@ const getAuthHeaders = () => {
 // Fetch all public repositories for a given user
 export const getUserPublicRepos = async (username: string): Promise<GithubRepo[]> => {
     try {
+        const headers = getAuthHeaders();
+        console.log('Making GitHub API request with headers:', { ...headers, Authorization: headers.Authorization ? 'Bearer [REDACTED]' : 'No token' });
+        
         const response = await fetch(`${GITHUB_API_BASE}/users/${username}/repos?type=owner&sort=updated&per_page=100`, {
-            headers: getAuthHeaders()
+            headers
         });
+        
+        console.log('GitHub API response status:', response.status);
         
         if (!response.ok) {
             if (response.status === 404) {
                 throw new Error(`GitHub user "${username}" not found.`);
             }
             if (response.status === 403) {
-                throw new Error('GitHub API rate limit exceeded. Please try again later.');
+                const errorText = await response.text();
+                console.error('GitHub API 403 error:', errorText);
+                throw new Error('GitHub API access denied. Please check your authentication or try again later.');
             }
-            throw new Error('Failed to fetch repositories from GitHub.');
+            throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
         }
         
         const data = await response.json();
+        console.log(`Successfully fetched ${data.length} repositories`);
         
         // Return basic repo info without making additional API calls to avoid rate limits
         return data.map((repo: any) => ({

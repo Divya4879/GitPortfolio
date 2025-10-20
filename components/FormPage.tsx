@@ -29,11 +29,28 @@ const FormPage: React.FC<FormPageProps> = ({ onAnalyze, isLoading, error }) => {
     );
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (username.trim()) {
-      onAnalyze({ username: username.trim(), targetRole, experienceLevel, focusAreas });
+    
+    if (!user) {
+      // This shouldn't happen since FormPage is only shown when authenticated
+      console.error('User not authenticated in FormPage');
+      return;
     }
+
+    if (!username.trim()) {
+      console.error('No username provided');
+      return;
+    }
+
+    const userInput: UserInput = {
+      username: username.trim(),
+      targetRole,
+      experienceLevel,
+      focusAreas
+    };
+
+    onAnalyze(userInput);
   };
 
   return (

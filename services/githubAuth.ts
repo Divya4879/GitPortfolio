@@ -115,6 +115,8 @@ class GitHubAuth {
       localStorage.setItem(this.tokenKey, JSON.stringify(authData));
       sessionStorage.removeItem('github_oauth_state');
       
+      console.log('GitHub auth successful, token stored');
+      
       // Clean URL
       window.history.replaceState({}, document.title, window.location.pathname);
       
@@ -154,16 +156,21 @@ class GitHubAuth {
   getToken(): string | null {
     try {
       const authDataStr = localStorage.getItem(this.tokenKey);
-      if (!authDataStr) return null;
+      if (!authDataStr) {
+        console.log('No auth data found in localStorage');
+        return null;
+      }
 
       const authData = JSON.parse(authDataStr);
       
       // Check if token is expired
       if (Date.now() > authData.expiresAt) {
+        console.log('Token expired, logging out');
         this.logout();
         return null;
       }
 
+      console.log('Token found and valid');
       return authData.token;
     } catch (error) {
       console.error('Error getting token:', error);
