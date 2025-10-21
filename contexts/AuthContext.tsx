@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { githubAuth } from '../services/githubAuth';
+import { analytics } from '../services/analytics';
 
 interface User {
   login: string;
@@ -48,6 +49,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           } else if (callbackUser) {
             setUser(callbackUser);
             setError(null);
+            
+            // Track signup
+            await analytics.trackSignup(callbackUser.login, callbackUser);
           }
         } else {
           // Check existing session

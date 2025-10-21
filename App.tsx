@@ -9,6 +9,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { analyzePortfolio, analyzeSingleRepo } from './services/geminiService';
 import { getUserPublicRepos, getRepoReadmeContent, getRepoFileTree } from './services/githubService';
 import { analysisStorage } from './services/analysisStorage';
+import { analytics } from './services/analytics';
 import type { PortfolioAnalysis, UserInput, GithubRepo, SingleRepoAnalysis } from './types';
 
 type View = 'landing' | 'form' | 'loading' | 'results';
@@ -89,6 +90,11 @@ const AppContent: React.FC = () => {
       // Save analysis to localStorage
       analysisStorage.saveAnalysis(analysis, userInput);
       setAnalysisResult(analysis);
+      
+      // Track analysis completion
+      if (user) {
+        await analytics.trackAnalysis(user.login, userInput.targetRole);
+      }
       
       setLoadingProgress(100);
       setTimeout(() => setView('results'), 500); // Small delay to show 100%
