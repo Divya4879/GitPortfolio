@@ -192,24 +192,24 @@ class IndustryAnalysisService {
     return [
       {
         metric: 'Documentation Quality',
-        userScore: userMetrics.documentationScore || 0,
+        userScore: userMetrics.documentation || userMetrics.documentationScore || 0,
         industryAverage: roleBenchmarks.documentationScore,
         topPercentile: roleBenchmarks.documentationScore + 20,
-        interpretation: this.getInterpretation(userMetrics.documentationScore, roleBenchmarks.documentationScore)
+        interpretation: this.getInterpretation(userMetrics.documentation || userMetrics.documentationScore || 0, roleBenchmarks.documentationScore)
       },
       {
         metric: 'Code Quality',
-        userScore: userMetrics.codeQualityScore || 0,
+        userScore: userMetrics.codeQuality || userMetrics.codeQualityScore || 0,
         industryAverage: roleBenchmarks.codeQualityScore,
         topPercentile: roleBenchmarks.codeQualityScore + 15,
-        interpretation: this.getInterpretation(userMetrics.codeQualityScore, roleBenchmarks.codeQualityScore)
+        interpretation: this.getInterpretation(userMetrics.codeQuality || userMetrics.codeQualityScore || 0, roleBenchmarks.codeQualityScore)
       },
       {
         metric: 'Project Diversity',
-        userScore: userMetrics.projectDiversityScore || 0,
+        userScore: userMetrics.projectDiversity || userMetrics.projectDiversityScore || 0,
         industryAverage: roleBenchmarks.projectDiversityScore,
         topPercentile: roleBenchmarks.projectDiversityScore + 25,
-        interpretation: this.getInterpretation(userMetrics.projectDiversityScore, roleBenchmarks.projectDiversityScore)
+        interpretation: this.getInterpretation(userMetrics.projectDiversity || userMetrics.projectDiversityScore || 0, roleBenchmarks.projectDiversityScore)
       }
     ];
   }
