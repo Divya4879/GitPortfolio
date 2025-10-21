@@ -6,7 +6,9 @@ import RecommendationItem from './RecommendationItem';
 import ProgressBar from './ProgressBar';
 import SkillsMapping from './SkillsMapping';
 import ProjectSuggestions from './ProjectSuggestions';
+import IndustryInsights from './IndustryInsights';
 import { analysisStorage } from '../services/analysisStorage';
+import { industryAnalysis } from '../services/industryAnalysis';
 import { CodeBracketIcon, DocumentTextIcon, ChartBarIcon, LightBulbIcon, DownloadIcon, BookOpenIcon, BeakerIcon } from './icons';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -241,28 +243,25 @@ const ResultsDashboard: React.FC<ResultsDashboardProps> = ({ analysis, userInput
                 <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10">
                     <h3 className="text-xl font-semibold text-white mb-6">Performance vs Industry Standards</h3>
                     <div className="space-y-6">
-                        <ProgressBar 
-                            score={analysis.overallScore} 
-                            label="Overall Portfolio Score" 
-                            benchmark={75}
-                        />
-                        <ProgressBar 
-                            score={analysis.scoreBreakdown.codeQuality} 
-                            label="Code Quality" 
-                            benchmark={80}
-                        />
-                        <ProgressBar 
-                            score={analysis.scoreBreakdown.documentation} 
-                            label="Documentation Quality" 
-                            benchmark={70}
-                        />
-                        <ProgressBar 
-                            score={analysis.scoreBreakdown.projectDiversity} 
-                            label="Project Diversity" 
-                            benchmark={65}
-                        />
+                        {industryAnalysis.getBenchmarks(userInput.targetRole, analysis.scoreBreakdown).map((benchmark, index) => (
+                            <ProgressBar 
+                                key={index}
+                                score={benchmark.userScore} 
+                                label={benchmark.metric} 
+                                benchmark={benchmark.industryAverage}
+                                interpretation={benchmark.interpretation}
+                            />
+                        ))}
                     </div>
                 </div>
+
+                {/* Industry Insights */}
+                <IndustryInsights 
+                    targetRole={userInput.targetRole}
+                    experienceLevel={userInput.experienceLevel}
+                    detectedTechnologies={analysis.techStackAnalysis.languages}
+                    overallScore={analysis.overallScore}
+                />
 
                 {/* Skills Analysis */}
                 <SkillsMapping 
